@@ -174,6 +174,10 @@ namespace WebApplication1.Controllers
             return myListArticoli;
         }
 
+
+        //*************************************************
+        //    RESTITUISCE
+        //*************************************************
         [Route("articolo")]
         [HttpGet]
         public Articolo GetArticolo(Int32 ArticoloID)
@@ -243,7 +247,76 @@ namespace WebApplication1.Controllers
             // return di myArticolo
         }
 
-        // seconda chiamata - POST - che riceve un articolo
-        // e lo aggiunge alla TArticoli
-    }
+        //**********************************************************
+        //   RESTITUISCE L'ARTICOLO CHE CONTIENE LA PAROLA CHIAVE
+        //**********************************************************
+
+        [Route("articolitext")]
+        [HttpGet]
+        public List<Articolo> GetArticoliByText(String Testo)
+        {
+            SqlConnection mySqlConnection = null;
+
+            // dichiaro una List di Articoli
+            List<Articolo> viewArticoli = new List<Articolo>();
+
+            try
+            {
+                // per connettermi al db
+                // mi serve una stringa di connessione
+                String stringaConnessione = "Server=localhost\\SQLEXPRESS; Database=DBGestionaleVI; Trusted_Connection=True";
+
+                // creo l'istanza della connessione al DB
+                mySqlConnection = new SqlConnection(stringaConnessione);
+
+                // provo aprire la connessione al DB
+                mySqlConnection.Open();
+
+                // creo l'oggetto che mi permette di estrarre i dati da TArticoli
+                SqlCommand mySqlCommand = new SqlCommand();
+                mySqlCommand.Connection = mySqlConnection;
+
+                mySqlCommand.Parameters.Add("@Text", SqlDbType.NVarChar);
+                mySqlCommand.Parameters["@Text"].Value = "%" + Testo + "%";
+
+                mySqlCommand.CommandText = "SELECT * FROM TArticoli WHERE Descrizione LIKE @Text OR Nome LIKE @Text";
+
+                // devo eseguire il mySqlCommand e ottengo un SqlDataReader
+                SqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                while (mySqlDataReader.Read())
+                {
+                    Articolo myArticolo = new Articolo();
+
+                    myArticolo.ArticoloID = Convert.ToInt32(mySqlDataReader["ArticoloID"]);
+                    myArticolo.Nome = Convert.ToString(mySqlDataReader["Nome"]);
+                    myArticolo.Descrizione = Convert.ToString(mySqlDataReader["Descrizione"]);
+                    myArticolo.PrezzoUnitarioVendita = Convert.ToSingle(mySqlDataReader["PrezzoUnitarioVendita"]);
+                    myArticolo.Giacenza = Convert.ToInt32(mySqlDataReader["Giacenza"]);
+                    myArticolo.AliquotaIVA = Convert.ToInt32(mySqlDataReader["AliquotaIVA"]);
+
+                    viewArticoli.Add(myArticolo);
+                }
+
+                mySqlDataReader.Close();
+
+                
+            }
+            catch (Exception exc)
+            {
+                
+            }
+            finally
+            {
+                // che tutto sia OK oppure KO il codice dentro finally verra sempre eseguita x.y
+                // chiudo la connessione al db
+                mySqlConnection.Close();
+            }
+
+            return viewArticoli;
+        }
+
+            // seconda chiamata - POST - che riceve un articolo
+            // e lo aggiunge alla TArticoli
+        }
 }

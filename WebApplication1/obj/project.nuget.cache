@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yccUostlShVleT7ByzaelbCXjVdhGGhqZPu1d1aeHuaQGnYvaz+fW7SqEo1zU7aD3GTFYBCDiGkdf/l3B6Dp/A==",
+  "dgSpecHash": "XaJok6PC9+PmdSLmXlgysPeQJIGabMg85q1+/2d0uBCNU3La5obYJz1CqJGij/WWYS5ICj+5Wx8sWZDz2FRmhQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\6.Lezione17.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
   "expectedPackageFiles": [
@@ -20,8 +20,8 @@
     "C:\\Users\\ciochina_a\\.nuget\\packages\\system.data.sqlclient\\4.8.6\\system.data.sqlclient.4.8.6.nupkg.sha512",
     "C:\\Users\\ciochina_a\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\ciochina_a\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
-    "C:\\Users\\ciochina_a\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.15\\microsoft.netcore.app.ref.7.0.15.nupkg.sha512",
     "C:\\Users\\ciochina_a\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.15\\microsoft.windowsdesktop.app.ref.7.0.15.nupkg.sha512",
+    "C:\\Users\\ciochina_a\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.15\\microsoft.netcore.app.ref.7.0.15.nupkg.sha512",
     "C:\\Users\\ciochina_a\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.15\\microsoft.aspnetcore.app.ref.7.0.15.nupkg.sha512",
     "C:\\Users\\ciochina_a\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.15\\microsoft.netcore.app.host.win-x64.7.0.15.nupkg.sha512"
   ],

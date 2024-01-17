@@ -316,6 +316,64 @@ namespace WebApplication1.Controllers
             return viewArticoli;
         }
 
+        [Route("inserisciarticolo")]
+        [HttpPost]
+        public String PostInserisciArticolo(Articolo myArticolo)
+        {
+            // codice che fa insert di articolo in TArticolo
+            // se tutto va bene -> return "OK"
+            // se c'e eccezione -> return exc.Message;
+            SqlConnection mySqlConnection = null;
+            try
+            {
+                String stringaConnessione = "Server=localhost\\SQLEXPRESS; Database=DBGestionaleVI; Trusted_Connection=True";
+
+                // creo l'istanza della connessione al DB
+                mySqlConnection = new SqlConnection(stringaConnessione);
+
+                // provo aprire la connessione al DB
+                mySqlConnection.Open();
+
+                // SqlConnection mySqlConnection = new SqlConnection();          (1)  --> two different type to create mySqlConnection
+                // SqlCommand mySqlCommand = mySqlConnection.CreateCommand();    (2)
+                SqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+                mySqlCommand.Connection = mySqlConnection;
+
+                // adesso dovrei preparare l'sql
+                // INSERT INTO TArticoli(Nome, Descrizione) VALUES ('PANE', 'PANE AL LATTE')
+                // per evitare sql injection utilizziamo dei parametri
+                mySqlCommand.Parameters.Add("@Nome", SqlDbType.NVarChar);
+                mySqlCommand.Parameters["@Nome"].Value = myArticolo.Nome;
+
+                mySqlCommand.Parameters.Add("@Descrizione", SqlDbType.NVarChar);
+                mySqlCommand.Parameters["@Descrizione"].Value = myArticolo.Descrizione;
+
+                mySqlCommand.Parameters.Add("@PrezzoUnitarioVendita", SqlDbType.Float);
+                mySqlCommand.Parameters["@PrezzoUnitarioVendita"].Value = myArticolo.PrezzoUnitarioVendita;
+
+                mySqlCommand.Parameters.Add("@Giacenza", SqlDbType.Int);
+                mySqlCommand.Parameters["@Giacenza"].Value = myArticolo.Giacenza;
+
+                mySqlCommand.Parameters.Add("@AliquotaIVA", SqlDbType.Int);
+                mySqlCommand.Parameters["@AliquotaIVA"].Value = myArticolo.AliquotaIVA;
+
+                mySqlCommand.CommandText = "INSERT INTO TArticoli (Nome, Descrizione, PrezzoUnitarioVendita, Giacenza, AliquotaIVA) " +
+                                           "VALUES (@Nome, @Descrizione, @PrezzoUnitarioVendita, @Giacenza, @AliquotaIVA)";
+
+                mySqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                return "KO";
+            }
+            finally
+            {
+                mySqlConnection.Close();
+            }
+
+            return "OK";
+        }
+
             // seconda chiamata - POST - che riceve un articolo
             // e lo aggiunge alla TArticoli
         }

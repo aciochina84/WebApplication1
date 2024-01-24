@@ -131,17 +131,6 @@ namespace WebApplication1.Controllers
 
                 while (mySqlDataReader.Read())
                 {
-                    // leggo un record alla volta
-                    // se sono qua significa che ho trovato un Record in TArticoli
-                    //Articolo myArticolo = new Articolo();
-                    //// compilo myArticolo e poi l'ho aggiungo alla myListArticoli
-                    //myArticolo.ArticoloID = Convert.ToInt32(mySqlDataReader["ArticoloID"]);
-                    //myArticolo.Nome = Convert.ToString(mySqlDataReader["Nome"]);
-                    //myArticolo.Descrizione = Convert.ToString(mySqlDataReader["Descrizione"]);
-                    //myArticolo.PrezzoUnitarioVendita = Convert.ToSingle(mySqlDataReader["PrezzoUnitarioVendita"]);
-                    //myArticolo.Giacenza = Convert.ToInt32(mySqlDataReader["Giacenza"]);
-                    //myArticolo.AliquotaIVA = Convert.ToInt32(mySqlDataReader["AliquotaIVA"]);
-
                     Articolo myArticolo = new Articolo
                     {
                         ArticoloID = Convert.ToInt32(mySqlDataReader["ArticoloID"]),
@@ -304,7 +293,7 @@ namespace WebApplication1.Controllers
             }
             catch (Exception exc)
             {
-                
+               
             }
             finally
             {
@@ -315,6 +304,10 @@ namespace WebApplication1.Controllers
 
             return viewArticoli;
         }
+
+        //*****************************************************************************
+        //      INSERISCI UN ARTICOLO NELLA LISTA
+        //*****************************************************************************
 
         [Route("inserisciarticolo")]
         [HttpPost]
@@ -334,14 +327,9 @@ namespace WebApplication1.Controllers
                 // provo aprire la connessione al DB
                 mySqlConnection.Open();
 
-                // SqlConnection mySqlConnection = new SqlConnection();          (1)  --> two different type to create mySqlConnection
-                // SqlCommand mySqlCommand = mySqlConnection.CreateCommand();    (2)
-                SqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+                SqlCommand mySqlCommand = new SqlCommand();
                 mySqlCommand.Connection = mySqlConnection;
 
-                // adesso dovrei preparare l'sql
-                // INSERT INTO TArticoli(Nome, Descrizione) VALUES ('PANE', 'PANE AL LATTE')
-                // per evitare sql injection utilizziamo dei parametri
                 mySqlCommand.Parameters.Add("@Nome", SqlDbType.NVarChar);
                 mySqlCommand.Parameters["@Nome"].Value = myArticolo.Nome;
 
@@ -364,7 +352,7 @@ namespace WebApplication1.Controllers
             }
             catch (Exception ex)
             {
-                return "KO";
+                return ex.Message;
             }
             finally
             {
@@ -374,7 +362,129 @@ namespace WebApplication1.Controllers
             return "OK";
         }
 
-            // seconda chiamata - POST - che riceve un articolo
-            // e lo aggiunge alla TArticoli
+        //*****************************************************************************
+        //      ELIMINA UN ARTICOLO DALLA TABELA
+        //*****************************************************************************
+
+        [Route("articoli/{id}")]
+        [HttpDelete]
+
+        public String EliminaArticolo(Int32 id)
+        {
+            SqlConnection mySqlConnection = null;
+
+            try {
+                String stringaConnessione = "Server=localhost\\SQLEXPRESS; Database=DBGestionaleVI; Trusted_Connection=True";
+                mySqlConnection = new SqlConnection(stringaConnessione);
+
+                mySqlConnection.Open();
+
+                SqlCommand mySqlCommand = new SqlCommand();
+                mySqlCommand.Connection = mySqlConnection;
+
+                // devo assicurarmi che ID e sicuro
+                mySqlCommand.Parameters.Add("@ID", SqlDbType.Int);
+                mySqlCommand.Parameters["@ID"].Value = id;
+
+                mySqlCommand.CommandText = "DELETE FROM TArticoli WHERE ArticoloID=@ID";
+
+                mySqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                return "Eccezione" + ex.Message;
+            }
+            finally
+            {
+                mySqlConnection.Close();
+            }
+
+            return "OK";
         }
+
+        //*******************************************************************
+        //     MODIFICA LA GIACENZA IN BASE ALLA VENDITA O AL ACQUISTO
+        //*******************************************************************
+
+        [Route("aggiornagiacenza")]
+        [HttpPut]
+
+        public String PutAggiornaGiacenza (Int32 ArticoloID, Int32 Quantita, String Tipo)
+        {
+            SqlConnection mySqlConnection = null;
+            try
+            {
+                //-----------------------------------------------------------------------------------------------------------------
+                
+                String stringaConnessione = "Server=localhost\\SQLEXPRESS; Database=DBGestionaleVI; Trusted_Connection=True";
+                mySqlConnection = new SqlConnection(stringaConnessione);
+
+                mySqlConnection.Open();
+
+                //------------------------------------------------------------------------------------------------------------------
+
+                SqlCommand mySqlCommand = new SqlCommand();
+                mySqlCommand.Connection = mySqlConnection;
+
+                mySqlCommand.Parameters.Add("@idArticolo", SqlDbType.Int);
+                mySqlCommand.Parameters["@idArticolo"].Value = ArticoloID;
+
+                mySqlCommand.Parameters.Add("@quantita", SqlDbType.Int);
+                mySqlCommand.Parameters["@quantita"].Value = Quantita;
+
+                Int32 quantita = Convert.ToInt32(mySqlCommand.Parameters["@quantita"].Value);
+
+                mySqlCommand.Parameters.Add("@tipo", SqlDbType.NVarChar);
+                mySqlCommand.Parameters["@tipo"].Value = Tipo;
+
+                // tipo di operazione da fare [acquisto o vendita]
+                String operazione = Convert.ToString(mySqlCommand.Parameters["@tipo"].Value);
+
+                // selecteaza tot articolul unde id-ul este cel cerut de noi: id, descriere, giacenza, quantita, aliquota ...
+                mySqlCommand.CommandText = "SELECT * FROM TArticoli WHERE ArticoloID=@idArticolo";
+
+                SqlDataReader myDataReader = mySqlCommand.ExecuteReader();
+
+                if (myDataReader.Read())
+                {
+                    Int32 giacenzaValue = Convert.ToInt32(myDataReader["Giacenza"]);
+
+                    if (operazione == "acquisto")
+                    {
+                        mySqlCommand.CommandText = $"UPDATE TArticoli SET Giacenza=Giacenza+@quantita WHERE ArticoloID=@idArticolo";
+                    }
+                    else if (operazione == "vendita")
+                    {
+                        if (giacenzaValue - quantita >= 0)
+                        {
+                            mySqlCommand.CommandText = $"UPDATE TArticoli SET Giacenza=Giacenza-@quantita WHERE ArticoloID=@idArticolo";
+                        } 
+                        else
+                        {
+                            // chiude data reader in caso che non è possibile modifica la giacenza
+                            myDataReader.Close();
+                            return "Articoli non sufficienti";
+                        }   
+                    }
+                }
+
+                // chiudo il reader
+                myDataReader.Close();
+
+                mySqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                return "KO " + ex.Message;
+            }
+            finally
+            {
+                if (mySqlConnection != null)
+                    mySqlConnection.Close();
+            }
+
+            return "Operazione eseguita con successo";
+        }
+
+    }
 }

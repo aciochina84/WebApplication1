@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\6.Lezione17.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj": {}
+    "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\7.Lezione24.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\6.Lezione17.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj": {
+    "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\7.Lezione24.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\6.Lezione17.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+        "projectUniqueName": "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\7.Lezione24.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\6.Lezione17.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+        "projectPath": "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\7.Lezione24.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
         "packagesPath": "C:\\Users\\ciochina_a\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\6.Lezione17.01.24\\WebApplication1\\WebApplication1\\obj\\",
+        "outputPath": "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\7.Lezione24.01.24\\WebApplication1\\WebApplication1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XaJok6PC9+PmdSLmXlgysPeQJIGabMg85q1+/2d0uBCNU3La5obYJz1CqJGij/WWYS5ICj+5Wx8sWZDz2FRmhQ==",
+  "dgSpecHash": "V4FwuE7qFPzsRE9NEc92eqVF8xj9nHjdEt/oyBn+c9kQftA76FRGE55+aUGPq+zkkTel3s+bxrmtaIi8hHwpew==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\6.Lezione17.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+  "projectFilePath": "C:\\Users\\ciochina_a\\OneDrive\\Desktop\\ITS Digital Academy\\Programmazione in C#\\7.Lezione24.01.24\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ciochina_a\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.13\\microsoft.aspnetcore.openapi.7.0.13.nupkg.sha512",
     "C:\\Users\\ciochina_a\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
